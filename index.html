@@ -17,9 +17,9 @@
   <body>
     <div class="container">
       <!-- <div class="canvas-box"> -->
-        <canvas id="canvas" class="canvas" width="340" height="340">
-          Your browser or device does not support canvas
-        </canvas>
+      <canvas id="canvas" class="canvas" width="340" height="340">
+        Your browser or device does not support canvas
+      </canvas>
       <!-- </div> -->
       <select name="interpolations" id="interpolation-select" class="select">
         <option selected value="ease">ease</option>
@@ -30,19 +30,43 @@
       </select>
       <label class="label">
         Control Point 1 X:
-        <input class="pointInput" id="controlPoint1X" value="0" type="number" />
+        <input
+          step="0.01"
+          class="pointInput"
+          id="controlPoint1X"
+          value="0"
+          type="number"
+        />
       </label>
       <label class="label">
         Control Point 1 Y:
-        <input class="pointInput" id="controlPoint1Y" value="0" type="number" />
+        <input
+          step="0.01"
+          class="pointInput"
+          id="controlPoint1Y"
+          value="0"
+          type="number"
+        />
       </label>
       <label class="label">
         Control Point 2 X:
-        <input class="pointInput" id="controlPoint2X" value="0" type="number" />
+        <input
+          step="0.01"
+          class="pointInput"
+          id="controlPoint2X"
+          value="0"
+          type="number"
+        />
       </label>
       <label class="label">
         Control Point 2 Y:
-        <input class="pointInput" id="controlPoint2Y" value="0" type="number" />
+        <input
+          step="0.01"
+          class="pointInput"
+          id="controlPoint2Y"
+          value="0"
+          type="number"
+        />
       </label>
     </div>
     <script src="./index.js"></script>
