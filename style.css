@@ -1,0 +1,31 @@
+.container {
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+}
+
+.canvas-box {
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.canvas {
+  box-shadow: 0px 0px 5px lightgrey;
+  transform: scale(1, -1);
+  /* border-top: 1px solid black;
+  border-left: 1px solid black; */
+}
+
+.select {
+  margin-bottom: 10px;
+}
+
+.label {
+  margin-bottom: 10px;
+}
+
+.pointInput {
+  margin-left: 10px;
+}

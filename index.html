@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interpolation</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+      integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- <div class="canvas-box"> -->
+        <canvas id="canvas" class="canvas" width="340" height="340">
+          Your browser or device does not support canvas
+        </canvas>
+      <!-- </div> -->
+      <select name="interpolations" id="interpolation-select" class="select">
+        <option selected value="ease">ease</option>
+        <option value="ease-in">ease-in</option>
+        <option value="ease-out">ease-out</option>
+        <option value="ease-in-out">ease-in-out</option>
+        <option value="sine-in-out">sine-in-out</option>
+      </select>
+      <label class="label">
+        Control Point 1 X:
+        <input class="pointInput" id="controlPoint1X" value="0" type="number" />
+      </label>
+      <label class="label">
+        Control Point 1 Y:
+        <input class="pointInput" id="controlPoint1Y" value="0" type="number" />
+      </label>
+      <label class="label">
+        Control Point 2 X:
+        <input class="pointInput" id="controlPoint2X" value="0" type="number" />
+      </label>
+      <label class="label">
+        Control Point 2 Y:
+        <input class="pointInput" id="controlPoint2Y" value="0" type="number" />
+      </label>
+    </div>
+    <script src="./index.js"></script>
+  </body>
+</html>
