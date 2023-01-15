@@ -190,8 +190,16 @@ cp1Y.addEventListener("change", inputChangeHandler);
 cp2X.addEventListener("change", inputChangeHandler);
 cp2Y.addEventListener("change", inputChangeHandler);
 
-function dragCPHandler() {
-
+function dragCPHandler(x, y, isCp1, isCp2) {
+  if (isCp1) {
+    cp1X.value = x;
+    cp1Y.value = y;
+  }
+  if (isCp2) {
+    cp2X.value = x;
+    cp2Y.value = y;
+  }
+  drawAll();
 }
 
 function mouseMoveHandler(e) {
@@ -202,6 +210,9 @@ function mouseMoveHandler(e) {
   const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
   if (isOverCP1 || isOverCP2) {
     canvas.style.cursor = isDragging ? "grabbing" : "grab";
+    if (isDragging) {
+      dragCPHandler(coundexMX, coundexMY, isOverCP1, isOverCP2);
+    }
   } else {
     canvas.style.cursor = "initial";
     isDragging = false;
