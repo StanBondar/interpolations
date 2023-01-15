@@ -52,6 +52,10 @@ function getValueFromPoint(number) {
   return +Number((number - 30) / 300).toFixed(2);
 }
 
+function getYValueFromPoint(number) {
+  return +Number((-(number - HEIGHT) - 30) / 300).toFixed(2);
+}
+
 const extremePoints = {
   start: { x: 0, y: 0 },
   end: { x: 1, y: 1 },
@@ -212,7 +216,7 @@ function mouseMoveHandler(e) {
   const mx = parseInt(clientX - offsetX);
   const my = parseInt(clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
-  const coundexMY = getValueFromPoint(my);
+  const coundexMY = getYValueFromPoint(my);
   const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
   if (isOverCP1 || isOverCP2) {
     canvas.style.cursor = isDragging ? "grabbing" : "grab";
@@ -231,7 +235,7 @@ function mouseDownHandler(e) {
   const mx = parseInt(clientX - offsetX);
   const my = parseInt(clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
-  const coundexMY = getValueFromPoint(my);
+  const coundexMY = getYValueFromPoint(my);
   const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
   if (isOverCP1 || isOverCP2) {
     canvas.style.cursor = "grabbing";
