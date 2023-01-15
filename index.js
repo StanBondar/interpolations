@@ -172,15 +172,15 @@ function inputChangeHandler() {
 
 function isCursorOverCP(cursorX, cursorY) {
   const isOverCP1 =
-    countPointValue(cursorX) >= countPointValue(cp1X.value) - 5 &&
-    countPointValue(cursorX) <= countPointValue(cp1X.value) + 5 &&
-    countPointValue(cursorY) >= countPointValue(cp1Y.value) - 5 &&
-    countPointValue(cursorY) <= countPointValue(cp1Y.value) + 5;
+    countPointValue(cursorX) >= countPointValue(cp1X.value) - 10 &&
+    countPointValue(cursorX) <= countPointValue(cp1X.value) + 10 &&
+    countPointValue(cursorY) >= countPointValue(cp1Y.value) - 10 &&
+    countPointValue(cursorY) <= countPointValue(cp1Y.value) + 10;
   const isOverCP2 =
-    countPointValue(cursorX) >= countPointValue(cp2X.value) - 5 &&
-    countPointValue(cursorX) <= countPointValue(cp2X.value) + 5 &&
-    countPointValue(cursorY) >= countPointValue(cp2Y.value) - 5 &&
-    countPointValue(cursorY) <= countPointValue(cp2Y.value) + 5;
+    countPointValue(cursorX) >= countPointValue(cp2X.value) - 10 &&
+    countPointValue(cursorX) <= countPointValue(cp2X.value) + 10 &&
+    countPointValue(cursorY) >= countPointValue(cp2Y.value) - 10 &&
+    countPointValue(cursorY) <= countPointValue(cp2Y.value) + 10;
   return { isOverCP1, isOverCP2 };
 }
 
@@ -203,8 +203,10 @@ function dragCPHandler(x, y, isCp1, isCp2) {
 }
 
 function mouseMoveHandler(e) {
-  const mx = parseInt(e.clientX - offsetX);
-  const my = parseInt(e.clientY - offsetY);
+  e.preventDefault();
+  const { clientX, clientY } = e.clientX ? e : e.touches[0];
+  const mx = parseInt(clientX - offsetX);
+  const my = parseInt(clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
   const coundexMY = getValueFromPoint(my);
   const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
@@ -220,8 +222,10 @@ function mouseMoveHandler(e) {
 }
 
 function mouseDownHandler(e) {
-  const mx = parseInt(e.clientX - offsetX);
-  const my = parseInt(e.clientY - offsetY);
+  e.preventDefault();
+  const { clientX, clientY } = e.clientX ? e : e.touches[0];
+  const mx = parseInt(clientX - offsetX);
+  const my = parseInt(clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
   const coundexMY = getValueFromPoint(my);
   const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
@@ -238,8 +242,11 @@ function mouseUpHandler() {
 
 canvas.addEventListener("mousedown", mouseDownHandler);
 canvas.addEventListener("mouseup", mouseUpHandler);
-
 canvas.addEventListener("mousemove", mouseMoveHandler);
+
+canvas.addEventListener("touchstart", mouseDownHandler);
+canvas.addEventListener("touchend", mouseUpHandler);
+canvas.addEventListener("touchmove", mouseMoveHandler);
 
 initForm();
 drawAll();
