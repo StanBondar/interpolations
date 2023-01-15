@@ -40,8 +40,12 @@ const interpolations = {
   },
 };
 
-function countPointValue(initialValue) {
+function countXPointValue(initialValue) {
   return initialValue * 300 + 30;
+}
+
+function countYPointValue(value) {
+  return -(value * 300 + 30) + HEIGHT;
 }
 
 function getValueFromPoint(number) {
@@ -82,7 +86,7 @@ function drawLine(
 
 function drawAxes() {
   // Draw x-axis line
-  drawLine(340, 30, 0, 30);
+  drawLine(340, 310, 0, 310);
   // Draw y-axis line
   drawLine(30, 340, 30, 0);
 }
@@ -90,16 +94,16 @@ function drawAxes() {
 function drawPoint(x, y, fillColor = "red") {
   ctx.fillStyle = fillColor;
   ctx.beginPath();
-  ctx.arc(countPointValue(x), countPointValue(y), 5, 0, 2 * Math.PI);
+  ctx.arc(countXPointValue(x), countYPointValue(y), 5, 0, 2 * Math.PI);
   ctx.fill();
 }
 
 function drawControlLine(controlPoint, extremePoint, fillColor) {
   drawLine(
-    countPointValue(controlPoint.x),
-    countPointValue(controlPoint.y),
-    countPointValue(extremePoint.x),
-    countPointValue(extremePoint.y),
+    countXPointValue(controlPoint.x),
+    countYPointValue(controlPoint.y),
+    countXPointValue(extremePoint.x),
+    countYPointValue(extremePoint.y),
     fillColor
   );
   drawPoint(controlPoint.x, controlPoint.y, fillColor);
@@ -111,28 +115,28 @@ function drawExtremePoints() {
   ctx.beginPath();
   // Start point
   ctx.arc(
-    countPointValue(start.x),
-    countPointValue(start.y),
+    countXPointValue(start.x),
+    countYPointValue(start.y),
     5,
     0,
     2 * Math.PI
   );
   // End point
-  ctx.arc(countPointValue(end.x), countPointValue(end.y), 5, 0, 2 * Math.PI);
+  ctx.arc(countXPointValue(end.x), countYPointValue(end.y), 5, 0, 2 * Math.PI);
   ctx.fill();
 }
 
 function drawCurve() {
   const { start, end } = extremePoints;
   ctx.beginPath();
-  ctx.moveTo(countPointValue(start.x), countPointValue(start.y));
+  ctx.moveTo(countXPointValue(start.x), countYPointValue(start.y));
   ctx.bezierCurveTo(
-    countPointValue(cp1X.value),
-    countPointValue(cp1Y.value),
-    countPointValue(cp2X.value),
-    countPointValue(cp2Y.value),
-    countPointValue(end.x),
-    countPointValue(end.y)
+    countXPointValue(cp1X.value),
+    countYPointValue(cp1Y.value),
+    countXPointValue(cp2X.value),
+    countYPointValue(cp2Y.value),
+    countXPointValue(end.x),
+    countYPointValue(end.y)
   );
   ctx.stroke();
 }
@@ -172,15 +176,15 @@ function inputChangeHandler() {
 
 function isCursorOverCP(cursorX, cursorY) {
   const isOverCP1 =
-    countPointValue(cursorX) >= countPointValue(cp1X.value) - 10 &&
-    countPointValue(cursorX) <= countPointValue(cp1X.value) + 10 &&
-    countPointValue(cursorY) >= countPointValue(cp1Y.value) - 10 &&
-    countPointValue(cursorY) <= countPointValue(cp1Y.value) + 10;
+    countXPointValue(cursorX) >= countXPointValue(cp1X.value) - 10 &&
+    countXPointValue(cursorX) <= countXPointValue(cp1X.value) + 10 &&
+    countYPointValue(cursorY) >= countYPointValue(cp1Y.value) - 10 &&
+    countYPointValue(cursorY) <= countYPointValue(cp1Y.value) + 10;
   const isOverCP2 =
-    countPointValue(cursorX) >= countPointValue(cp2X.value) - 10 &&
-    countPointValue(cursorX) <= countPointValue(cp2X.value) + 10 &&
-    countPointValue(cursorY) >= countPointValue(cp2Y.value) - 10 &&
-    countPointValue(cursorY) <= countPointValue(cp2Y.value) + 10;
+    countXPointValue(cursorX) >= countXPointValue(cp2X.value) - 10 &&
+    countXPointValue(cursorX) <= countXPointValue(cp2X.value) + 10 &&
+    countYPointValue(cursorY) >= countYPointValue(cp2Y.value) - 10 &&
+    countYPointValue(cursorY) <= countYPointValue(cp2Y.value) + 10;
   return { isOverCP1, isOverCP2 };
 }
 
