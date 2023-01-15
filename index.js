@@ -171,7 +171,7 @@ function inputChangeHandler() {
   drawAll();
 }
 
-function inCursorOverCP(cursorX, cursorY) {
+function isCursorOverCP(cursorX, cursorY) {
   const isXInArea =
     (countPointValue(cursorX) >= countPointValue(cp1X.value) - 5 &&
       countPointValue(cursorX) <= countPointValue(cp1X.value) + 5) ||
@@ -196,7 +196,7 @@ function mouseMoveHandler(e) {
   const my = parseInt(e.clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
   const coundexMY = getValueFromPoint(my);
-  if (inCursorOverCP(coundexMX, coundexMY)) {
+  if (isCursorOverCP(coundexMX, coundexMY)) {
     canvas.style.cursor = isDragging ? "grabbing" : "grab";
   } else {
     canvas.style.cursor = "initial";
@@ -208,7 +208,7 @@ function mouseDownHandler(e) {
   const my = parseInt(e.clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
   const coundexMY = getValueFromPoint(my);
-  if (inCursorOverCP(coundexMX, coundexMY)) {
+  if (isCursorOverCP(coundexMX, coundexMY)) {
     canvas.style.cursor = "grabbing";
     isDragging = true;
   }
