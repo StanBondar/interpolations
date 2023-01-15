@@ -48,7 +48,7 @@ function countYPointValue(value) {
   return -(value * 300 + 30) + HEIGHT;
 }
 
-function getValueFromPoint(number) {
+function getXValueFromPoint(number) {
   return +Number((number - 30) / 300).toFixed(2);
 }
 
@@ -215,7 +215,7 @@ function mouseMoveHandler(e) {
   const { clientX, clientY } = e.clientX ? e : e.touches[0];
   const mx = parseInt(clientX - offsetX);
   const my = parseInt(clientY - offsetY);
-  const coundexMX = getValueFromPoint(mx);
+  const coundexMX = getXValueFromPoint(mx);
   const coundexMY = getYValueFromPoint(my);
   const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
   if (isOverCP1 || isOverCP2) {
@@ -234,7 +234,7 @@ function mouseDownHandler(e) {
   const { clientX, clientY } = e.clientX ? e : e.touches[0];
   const mx = parseInt(clientX - offsetX);
   const my = parseInt(clientY - offsetY);
-  const coundexMX = getValueFromPoint(mx);
+  const coundexMX = getXValueFromPoint(mx);
   const coundexMY = getYValueFromPoint(my);
   const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
   if (isOverCP1 || isOverCP2) {
