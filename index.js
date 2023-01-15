@@ -7,8 +7,15 @@ const cp2X = document.getElementById("controlPoint2X");
 const cp2Y = document.getElementById("controlPoint2Y");
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
+const BB = canvas.getBoundingClientRect();
+const offsetX = BB.left;
+const offsetY = BB.top;
 
 const interpolations = {
+  null: {
+    cp1: { x: 0, y: 0 },
+    cp2: { x: 1, y: 1 },
+  },
   ease: {
     cp1: { x: 0.25, y: 0.1 },
     cp2: { x: 0.25, y: 1 },
@@ -35,6 +42,11 @@ function countPointValue(initialValue) {
   return initialValue * 300 + 30;
 }
 
+function getValueFromPoint(number) {
+  // return +Number((number - 30) / 300).toFixed(2);
+  return (number - 30) / 300;
+}
+
 const extremePoints = {
   start: { x: 0, y: 0 },
   end: { x: 1, y: 1 },
@@ -48,7 +60,6 @@ function initForm() {
   cp2Y.value = interpolations.ease.cp2.y;
 }
 
-// clear the canvas
 function clear() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 }
@@ -127,6 +138,8 @@ function drawCurve() {
 
 function drawAll() {
   clear();
+  ctx.fillStyle = "grey";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   drawAxes();
   drawExtremePoints();
   drawCurve();
@@ -140,8 +153,6 @@ function drawAll() {
     extremePoints.end,
     "yellow"
   );
-  // drawPoint(cp1X.value, cp1Y.value, "yellow");
-  // drawPoint(cp2X.value, cp2Y.value, "yellow");
 }
 
 function selectChangeHandler() {
@@ -154,7 +165,24 @@ function selectChangeHandler() {
 }
 
 function inputChangeHandler() {
+  select.value = "null";
   drawAll();
+}
+
+function inCursorOverCP(cursorX, cursorY) {
+  // debugger;
+  const isXInArea =
+    (countPointValue(cursorX) >= countPointValue(cp1X.value) - 5 &&
+      countPointValue(cursorX) <= countPointValue(cp1X.value) + 5) ||
+    (countPointValue(cursorX) >= countPointValue(cp2X.value) - 5 &&
+      countPointValue(cursorX) <= countPointValue(cp2X.value) + 5);
+  const isYInArea =
+    (countPointValue(cursorY) >= countPointValue(cp1Y.value) - 5 &&
+      countPointValue(cursorY) <= countPointValue(cp1Y.value) + 5) ||
+    (countPointValue(cursorY) >= countPointValue(cp2Y.value) - 5 &&
+      countPointValue(cursorY) <= countPointValue(cp2Y.value) + 5);
+  console.log("cursor over CP - ", isXInArea && isYInArea);
+  return isXInArea && isYInArea;
 }
 
 select.addEventListener("change", selectChangeHandler);
@@ -162,6 +190,20 @@ cp1X.addEventListener("change", inputChangeHandler);
 cp1Y.addEventListener("change", inputChangeHandler);
 cp2X.addEventListener("change", inputChangeHandler);
 cp2Y.addEventListener("change", inputChangeHandler);
+
+function mouseMoveHandler(e) {
+  const mx = parseInt(e.clientX - offsetX);
+  const my = parseInt(e.clientY - offsetY);
+  const coundexMX = getValueFromPoint(mx);
+  const coundexMY = getValueFromPoint(my);
+  if (inCursorOverCP(coundexMX, coundexMY)) {
+    canvas.style.cursor = "grab";
+  } else {
+    canvas.style.cursor = "initial";
+  }
+}
+
+canvas.addEventListener("mousemove", mouseMoveHandler);
 
 initForm();
 drawAll();
