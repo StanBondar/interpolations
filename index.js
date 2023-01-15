@@ -11,6 +11,9 @@ const BB = canvas.getBoundingClientRect();
 const offsetX = BB.left;
 const offsetY = BB.top;
 
+let isDraggable = false;
+let isDragging = false;
+
 const interpolations = {
   null: {
     cp1: { x: 0, y: 0 },
@@ -43,8 +46,7 @@ function countPointValue(initialValue) {
 }
 
 function getValueFromPoint(number) {
-  // return +Number((number - 30) / 300).toFixed(2);
-  return (number - 30) / 300;
+  return +Number((number - 30) / 300).toFixed(2);
 }
 
 const extremePoints = {
@@ -170,7 +172,6 @@ function inputChangeHandler() {
 }
 
 function inCursorOverCP(cursorX, cursorY) {
-  // debugger;
   const isXInArea =
     (countPointValue(cursorX) >= countPointValue(cp1X.value) - 5 &&
       countPointValue(cursorX) <= countPointValue(cp1X.value) + 5) ||
@@ -181,7 +182,6 @@ function inCursorOverCP(cursorX, cursorY) {
       countPointValue(cursorY) <= countPointValue(cp1Y.value) + 5) ||
     (countPointValue(cursorY) >= countPointValue(cp2Y.value) - 5 &&
       countPointValue(cursorY) <= countPointValue(cp2Y.value) + 5);
-  console.log("cursor over CP - ", isXInArea && isYInArea);
   return isXInArea && isYInArea;
 }
 
@@ -197,11 +197,30 @@ function mouseMoveHandler(e) {
   const coundexMX = getValueFromPoint(mx);
   const coundexMY = getValueFromPoint(my);
   if (inCursorOverCP(coundexMX, coundexMY)) {
-    canvas.style.cursor = "grab";
+    canvas.style.cursor = isDragging ? "grabbing" : "grab";
   } else {
     canvas.style.cursor = "initial";
   }
 }
+
+function mouseDownHandler(e) {
+  const mx = parseInt(e.clientX - offsetX);
+  const my = parseInt(e.clientY - offsetY);
+  const coundexMX = getValueFromPoint(mx);
+  const coundexMY = getValueFromPoint(my);
+  if (inCursorOverCP(coundexMX, coundexMY)) {
+    canvas.style.cursor = "grabbing";
+    isDragging = true;
+  }
+}
+
+function mouseUpHandler() {
+  canvas.style.cursor = "grab";
+  isDragging = false;
+}
+
+canvas.addEventListener("mousedown", mouseDownHandler);
+canvas.addEventListener("mouseup", mouseUpHandler);
 
 canvas.addEventListener("mousemove", mouseMoveHandler);
 
