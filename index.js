@@ -11,7 +11,6 @@ const BB = canvas.getBoundingClientRect();
 const offsetX = BB.left;
 const offsetY = BB.top;
 
-let isDraggable = false;
 let isDragging = false;
 
 const interpolations = {
@@ -172,17 +171,17 @@ function inputChangeHandler() {
 }
 
 function isCursorOverCP(cursorX, cursorY) {
-  const isXInArea =
-    (countPointValue(cursorX) >= countPointValue(cp1X.value) - 5 &&
-      countPointValue(cursorX) <= countPointValue(cp1X.value) + 5) ||
-    (countPointValue(cursorX) >= countPointValue(cp2X.value) - 5 &&
-      countPointValue(cursorX) <= countPointValue(cp2X.value) + 5);
-  const isYInArea =
-    (countPointValue(cursorY) >= countPointValue(cp1Y.value) - 5 &&
-      countPointValue(cursorY) <= countPointValue(cp1Y.value) + 5) ||
-    (countPointValue(cursorY) >= countPointValue(cp2Y.value) - 5 &&
-      countPointValue(cursorY) <= countPointValue(cp2Y.value) + 5);
-  return isXInArea && isYInArea;
+  const isOverCP1 =
+    countPointValue(cursorX) >= countPointValue(cp1X.value) - 5 &&
+    countPointValue(cursorX) <= countPointValue(cp1X.value) + 5 &&
+    countPointValue(cursorY) >= countPointValue(cp1Y.value) - 5 &&
+    countPointValue(cursorY) <= countPointValue(cp1Y.value) + 5;
+  const isOverCP2 =
+    countPointValue(cursorX) >= countPointValue(cp2X.value) - 5 &&
+    countPointValue(cursorX) <= countPointValue(cp2X.value) + 5 &&
+    countPointValue(cursorY) >= countPointValue(cp2Y.value) - 5 &&
+    countPointValue(cursorY) <= countPointValue(cp2Y.value) + 5;
+  return { isOverCP1, isOverCP2 };
 }
 
 select.addEventListener("change", selectChangeHandler);
@@ -191,15 +190,21 @@ cp1Y.addEventListener("change", inputChangeHandler);
 cp2X.addEventListener("change", inputChangeHandler);
 cp2Y.addEventListener("change", inputChangeHandler);
 
+function dragCPHandler() {
+
+}
+
 function mouseMoveHandler(e) {
   const mx = parseInt(e.clientX - offsetX);
   const my = parseInt(e.clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
   const coundexMY = getValueFromPoint(my);
-  if (isCursorOverCP(coundexMX, coundexMY)) {
+  const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
+  if (isOverCP1 || isOverCP2) {
     canvas.style.cursor = isDragging ? "grabbing" : "grab";
   } else {
     canvas.style.cursor = "initial";
+    isDragging = false;
   }
 }
 
@@ -208,7 +213,8 @@ function mouseDownHandler(e) {
   const my = parseInt(e.clientY - offsetY);
   const coundexMX = getValueFromPoint(mx);
   const coundexMY = getValueFromPoint(my);
-  if (isCursorOverCP(coundexMX, coundexMY)) {
+  const { isOverCP1, isOverCP2 } = isCursorOverCP(coundexMX, coundexMY);
+  if (isOverCP1 || isOverCP2) {
     canvas.style.cursor = "grabbing";
     isDragging = true;
   }
